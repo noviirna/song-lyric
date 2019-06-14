@@ -82,6 +82,7 @@ function signIn() {
 function signOut() {
   gapi.auth2.getAuthInstance().signOut()
   .then(() => {
+
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     checkLogin();
