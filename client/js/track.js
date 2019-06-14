@@ -108,7 +108,9 @@ function findAlbumOrSong() {
             }/preview" style="max-width: 200px;" class="card-img-top">
             <div class="card-boy">
             <p class="card-text">${track.strArtist} ~ ${track.strTrack}</p>
-            <a href="#lyric" id="${track.idTrack}">List Song</a>
+            <a href="#lyric" onclick="getLyric('${
+              track.strArtist
+            }', '${track.strTrack}')">View Lyric</a>
             </div>
             </div>
             </div>
