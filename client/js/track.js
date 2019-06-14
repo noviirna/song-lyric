@@ -37,9 +37,9 @@ function findAlbumOrSong() {
         $('#search-result').append(`
           <div class="card mr-1 mb-4" style="width: 10%;  display: inline-block">
             <img src="${album.strAlbumThumb}/preview" class="card-img-top">
-            <div class="card-boy">
+            <div class="card-body">
             <p class="card-text">${album.strAlbum}</p>
-            <a href="#" class="btn btn-primary add-to-fav" id="${album.idAlbum}">List Song</a>
+            <a href="#" class="btn btn-primary list-song" id="${album.idAlbum}" onclick="listSong()">List Song</a>
             </div>
           </div>
         `)
@@ -48,10 +48,10 @@ function findAlbumOrSong() {
     else {
       data.track.forEach(track => {
         $('#search-result').append(`
-          <div class="card mr-1 mb-4" style="width: 30%;  display: inline-block">
-            <div class="card-boy">
+          <div class="card mr-1 mb-4" style="width: 30%;  display: block">
+            <div class="card-body">
             <p class="card-text">${track.strArtist} ~ ${track.strTrack}</p>
-            <a href="#" id="${track.idTrack}">Add to Fav</a>
+            <a href="#" class="btn btn-primary add-to-fav" id="${track.idTrack}">Add to Fav</a>
             </div>
           </div>
         `)
@@ -62,5 +62,16 @@ function findAlbumOrSong() {
 }
 
 function listSong() {
-  
+  $('#search-result').on('click', '.list-song', function(event) {
+    event.preventDefault()
+    const idAlbum = this.id
+    $.ajax({
+      method: 'GET',
+      url: `http://localhost:3000/3rdparty/tracklist?idAlbum=${idAlbum}`
+    })
+    .done(function (data){
+      $('#track-list').empty()
+      $('#track-list').append('<hr>')
+    })
+  })
 }
