@@ -72,6 +72,16 @@ function listSong() {
     .done(function (data){
       $('#track-list').empty()
       $('#track-list').append('<hr>')
+      data.track.forEach(track => {
+        $('#search-result').append(`
+          <div class="card mr-1 mb-4" style="width: 30%;  display: block">
+            <div class="card-body">
+            <p class="card-text">${track.strArtist} ~ ${track.strTrack}</p>
+            <a href="#" class="btn btn-primary add-to-fav" id="${track.idTrack}">Add to Fav</a>
+            </div>
+          </div>
+        `)
+      })
     })
   })
 }
