@@ -34,7 +34,6 @@ class ThirdParty {
   // atau nama satu lagu
   static gettrack(req, res, next) {
     audioDB.get(`searchtrack.php?s=${req.query.artist}&t=${req.query.song}`)
-
       .then(({ data }) => {
         res.json(data)
       })

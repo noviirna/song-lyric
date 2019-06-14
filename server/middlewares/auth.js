@@ -11,6 +11,7 @@ module.exports = {
       User.findById(decoded._id)
       .then(found=>{
         if(found){
+          req.user = found          
           next();
         }
       })

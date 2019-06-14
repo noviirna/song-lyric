@@ -3,7 +3,7 @@ const { decodeToken } = require("../helpers/token");
 
 class ControllerTrack {
   static create(req, res, next) {
-    Track.create(req.body)
+    Track.create({...req.body,userId: req.user._id})
       .then(created => {
         res.status(201).json(created);
       })
