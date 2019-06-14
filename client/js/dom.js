@@ -27,6 +27,9 @@ function loadmainpage() {
     <div id="search-result">
       
     </div>
+    <div id="player">
+    
+    </div>
 
     <div id="track-list">
     
@@ -48,7 +51,7 @@ function loadmainpage() {
 
   </div>
     `);
-    getTrackList()
+    getFavorites()
   gapi.load("auth2", function() {
     gapi.auth2.init();
   });

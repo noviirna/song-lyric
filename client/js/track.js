@@ -1,5 +1,4 @@
 function translate(lang) {
-  console.log("disini");
   let text = $("#origin").html()
   $.ajax({
     url: `http://localhost:3000/3rdparty/translate/` + lang,
@@ -10,7 +9,6 @@ function translate(lang) {
     }
   })
     .done(function(response) {
-      console.log("sampai sini");
       $("#translation").html(`
       ${response.translate}
       `)
@@ -32,7 +30,6 @@ function findAlbum() {
   }).done(data => {
     $("#search-result").empty();
     $("#search-result").append("<hr>");
-    console.log(song);
     if (!song) {
       data.album.forEach(album => {
         $("#search-result").append(`
@@ -64,7 +61,7 @@ function findAlbum() {
   });
 }
 
-function getTrackList() {
+function getFavorites() {
   let target =
     "http://theaudiodb.com/api/v1/json/195003/track.php?m=" + "2109614";
 
@@ -83,6 +80,7 @@ function getTrackList() {
     method: "get"
   })
     .done(function(response) {
+
       $("#albumname").html(`
     <div>
       ${
@@ -134,16 +132,17 @@ function getTrackList() {
 
 
 function getLyric(artist, title){
-  console.log("disini")
   $.ajax({
     url: `http://localhost:3000/3rdparty/lyric/${artist}/${title}`,
     method: "get"
   })
     .done(function(response) {
+      $("#songdetail").html("")
+      $("#origin").html("")
+      $("#translation").html("")
       $("#songdetail").html(`
       <center class="my-3">
       <h1>${title} by ${artist}</h1>
-      </center>
       <div class="input-group mb-3">
           <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Lihat Arti Lirik</button>
           <div class="dropdown-menu">
@@ -152,11 +151,11 @@ function getLyric(artist, title){
             <a class="dropdown-item" href="#" onclick="translate('jw'); return false">Bahasa Jawa</a>
           </div>
       </div>
+      </center>
       `)
       $("#origin").html(`
       ${response}
       `)
-     console.log(response)
     
     })
     .fail(function(jqXHR, textStatus) {
