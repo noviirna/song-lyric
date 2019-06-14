@@ -16,7 +16,6 @@ class ThirdParty {
   // dapatkan nama album
   static getalbum(req, res, next) {
     audioDB.get(`searchalbum.php?s=${req.query.artist}`)
-
     .then(({ data }) => {
       res.json(data)
     })
@@ -29,7 +28,6 @@ class ThirdParty {
   // atau nama satu lagu
   static gettrack(req, res, next) {
     audioDB.get(`searchtrack.php?s=${req.query.artist}&t=${req.query.song}`)
-
       .then(({ data }) => {
         res.json(data)
       })
@@ -57,8 +55,10 @@ class ThirdParty {
     // Instantiates a client
     let projectId = process.env.GOOGLE_PROJECT_ID;
     const translate = new Translate({ projectId });
+
+    // The target language
     const target = req.params.targetlang;
-    const text = req.body.text;
+    let text = req.body.text
     // Translates some text into Russian
     translate
       .translate(text, target)
