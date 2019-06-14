@@ -1,3 +1,4 @@
+
 function loadmainpage() {
   $("#app").html(`
   <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
@@ -13,14 +14,36 @@ function loadmainpage() {
       </ul>
     </div>
   </nav>
-  <div class="container-fluid mt-3 h-100">
-    <div id="section-songlist">
 
+  <div class="container-fluid mt-3 h-100">
+    <div>
+      <form class="form-inline" id="search-form" onsubmit="findAlbum()">
+        <input type="search" class="form-control mb-2 mr-sm-2" id="search-artist" placeholder="artist">
+        <input type="search" class="form-control mb-2 mr-sm-2" id="search-track" placeholder="song">
+        <button type="submit" class="btn btn-primary mb-2" >Submit</button>
+      </form>
     </div>
-    <div
+    
+    <div id="search-result">
+      
+    </div>
+
+    <div id="track-list">
+    
+    </div>
+
+    <div id="lyric">
+      <div id="origin" class="col-6">
+
+      </div>
+      <div id="translation" class="col-6">
+
+      </div>
+    </div>
+
   </div>
     `);
-
+    getTrackList()
   gapi.load("auth2", function() {
     gapi.auth2.init();
   });

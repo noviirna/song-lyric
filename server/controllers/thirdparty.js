@@ -23,7 +23,13 @@ class ThirdParty {
   }
 
   // dapatkan list lagu (inputnya albumId)
-  static gettracklist(req, res, next) {}
+  static gettracklist(req, res, next) {
+    audioDB.get(`track.php?m=${req.query.idAlbum}`)
+    .then(({ data }) => {
+      res.json(data)
+    })
+    .catch(next)
+  }
 
   // atau nama satu lagu
   static gettrack(req, res, next) {
