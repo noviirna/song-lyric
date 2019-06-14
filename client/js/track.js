@@ -68,8 +68,10 @@ function findAlbumOrSong() {
               <div class="p-auto">
               <img src="https://proxy.duckduckgo.com/iu/?u=https%3A%2F%2Fsupport.apple.com%2Fcontent%2Fdam%2Fedam%2Fapplecare%2Fimages%2Fen_US%2Fitunes%2Ffeatured-contetn-itunes-icon_2x.jpg&f=1" style="max-width: 200px;" class="card-img-top">
               <div class="card-boy">
-              <p class="card-text">${album.strAlbum}</p>
-              <a href="##lyric" onclick='getTrack("${
+              <H5 class="card-text">${album.strAlbum}</H5>
+              <p class="card-text">${album.strArtist}</p>
+              
+              <a href="#lyric" onclick='getTrack("${
                 album.idAlbum
               }")'>List Song</a>
               </div>
@@ -84,7 +86,8 @@ function findAlbumOrSong() {
               album.strAlbumThumb
             }/preview" style="max-width: 200px;" class="card-img-top">
             <div class="card-boy">
-            <p class="card-text">${album.strAlbum}</p>
+            <H5 class="card-text">${album.strAlbum}</H5>
+            <p class="card-text">${album.strArtist}</p>
             <a href="#lyric" onclick='getTrack("${
               album.idAlbum
             }")'>List Song</a>
@@ -105,7 +108,9 @@ function findAlbumOrSong() {
             }/preview" style="max-width: 200px;" class="card-img-top">
             <div class="card-boy">
             <p class="card-text">${track.strArtist} ~ ${track.strTrack}</p>
-            <a href="##lyric" id="${track.idTrack}">List Song</a>
+            <a href="#lyric" onclick="getLyric('${
+              track.strArtist
+            }', '${track.strTrack}')">View Lyric</a>
             </div>
             </div>
             </div>
@@ -179,7 +184,7 @@ function getTrack(idAlbum) {
           <ul class="list-group my-1">
             <li class="list-group-item list-group-item-light">
             <div id="${response.track[i].idTrack}">
-            a
+            
             </div>
             ${
               response.track[i].intTrackNumber
@@ -233,10 +238,14 @@ function getLyric(artist, title) {
       $("#origin").html("");
       $("#translation").html("");
       $("#songdetail").html(`
-      <center class="my-3">
+      <center class="my-3 h-100">
       <h1>${title} by ${artist}</h1>
+      <small>
       <a href="#translation" onclick="translate('id'); return false">Bahasa Indonesia</a>
+      </small>
+      <small>
       <a href="#translation" onclick="translate('jw'); return false">Bahasa Jawa</a>
+      </small>
       </center>
       `);
       $("#origin").html(`
