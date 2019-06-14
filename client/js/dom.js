@@ -13,8 +13,20 @@ function loadmainpage() {
       </ul>
     </div>
   </nav>
+
   <div class="container-fluid mt-3 h-100">
+    <div>
+      <form class="form-inline" id="search-form" onsubmit="findAlbum()">
+        <input type="search" class="form-control mb-2 mr-sm-2" id="search-artist" placeholder="artist">
+        <input type="search" class="form-control mb-2 mr-sm-2" id="search-track" placeholder="song">
+        <button type="submit" class="btn btn-primary mb-2" >Submit</button>
+      </form>
+    </div>
     
+    <div id="search-result">
+      
+    </div>
+
   </div>
     `);
 
