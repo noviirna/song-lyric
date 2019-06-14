@@ -1,4 +1,6 @@
 function loadmainpage() {
+  let loginName = atob(localStorage.getItem('token').split('.')[1])
+  loginName = JSON.parse(loginName).email
   $("#app").html(`
   <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <a class="navbar-brand p-3" href="#">
@@ -8,6 +10,13 @@ function loadmainpage() {
       <ul class="navbar-nav mr-auto">
         <li class="nav-item navbar-right">
           <a class="nav-link" href="#" onclick="signOut()">Log Out<span class="sr-only">(current)</span></a>
+        </li>
+      </ul>
+    </div>
+    <div class="collapse navbar-collapse" id="navbarColor02">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item navbar-right">
+          <a class="nav-link" href="#" onclick="signOut()" style="color: white">${loginName}<span class="sr-only">(current)</span></a>
         </li>
       </ul>
     </div>
