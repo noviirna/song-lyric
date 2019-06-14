@@ -235,23 +235,31 @@ function getLyric(artist, title) {
   })
     .done(function(response) {
       console.log(response)
-      $("#songdetail").html("");
-      $("#origin").html("");
-      $("#translation").html("");
-      $("#songdetail").html(`
-      <center class="my-3 h-100">
-      <h1>${title} by ${artist}</h1>
-      <small>
-      <a href="#translation" onclick="translate('id'); return false">Bahasa Indonesia</a>
-      </small>
-      <small>
-      <a href="#translation" onclick="translate('jw'); return false">Bahasa Jawa</a>
-      </small>
-      </center>
-      `);
-      $("#origin").html(`
-      ${response}
-      `);
+      if(response === "Instrumental"){
+        $("#songdetail").html("");
+        $("#origin").html("");
+        $("#translation").html("");
+        swal("song is an instrumental")
+      } else {
+        $("#songdetail").html("");
+        $("#origin").html("");
+        $("#translation").html("");
+        $("#songdetail").html(`
+        <center class="my-3 h-100">
+        <h1>${title} by ${artist}</h1>
+        <small>
+        <a href="#translation" onclick="translate('id'); return false">Bahasa Indonesia</a>
+        </small>
+        <small>
+        <a href="#translation" onclick="translate('jw'); return false">Bahasa Jawa</a>
+        </small>
+        </center>
+        `);
+        $("#origin").html(`
+        ${response}
+        `);
+
+      }
     })
     .fail(function(jqXHR, textStatus) {
       $("#songdetail").html("");

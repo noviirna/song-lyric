@@ -51,6 +51,7 @@ function loadmainpage() {
     
     </div>
 
+
     <div id="lyric">
       <h1 id="songdetail" class="my-5"> </h1>
       <div class="row">
@@ -65,8 +66,9 @@ function loadmainpage() {
       </div>
     </div>
 
-    <div id="track-list">
-    
+    <div class="container">
+      <div class="row" id='wiki'>
+      </div>
     </div>
 
   </div>
