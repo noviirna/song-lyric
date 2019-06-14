@@ -53,10 +53,8 @@ class ThirdParty {
     let projectId = process.env.GOOGLE_PROJECT_ID;
     const translate = new Translate({ projectId });
 
-    // The text to translate
     const text = "Hello, world!";
 
-    // Translates some text into Russian
     translate
       .detect(text)
       .then(value => {
