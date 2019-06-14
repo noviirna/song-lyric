@@ -6,6 +6,8 @@ const thirdparty = require("./thirdparty")
 
 router.use("/", user)
 router.use("/tracks", track)
-router.use("/3rdparty", thirdparty)
+router.use("/3rdparty", thirdparty);
+
+router.use('/details', require('./detail'))
 
 module.exports = router;
