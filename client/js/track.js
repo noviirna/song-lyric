@@ -1,3 +1,5 @@
+import { getalbum } from "../../server/controllers/thirdparty";
+
 function translate(){
   let lang = "jw"
   console.log("disini")
@@ -16,4 +18,8 @@ function translate(){
       console.log(JSON.stringify(jqXHR, null, 2));
       swal("google auth error", "please login using regular login", "error");
     });
+}
+
+function getalbum(){
+
 }

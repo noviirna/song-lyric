@@ -14,7 +14,10 @@ function loadmainpage() {
     </div>
   </nav>
   <div class="container-fluid mt-3 h-100">
-    
+    <div id="section-songlist">
+
+    </div>
+    <div
   </div>
     `);
 
