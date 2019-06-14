@@ -17,6 +17,7 @@ class ThirdParty {
   static getalbum(req, res, next) {
     audioDB.get(`searchalbum.php?s=${req.query.artist}`)
     .then(({ data }) => {
+      if (!data.album) throw { code: 404, message: `album not found` }
       res.json(data)
     })
     .catch(next)
@@ -26,6 +27,7 @@ class ThirdParty {
   static gettracklist(req, res, next) {
     audioDB.get(`track.php?m=${req.query.idAlbum}`)
     .then(({ data }) => {
+      if (!data.track) throw { code: 404, message: `album not found` }
       res.json(data)
     })
     .catch(next)
@@ -36,6 +38,7 @@ class ThirdParty {
     audioDB.get(`searchtrack.php?s=${req.query.artist}&t=${req.query.song}`)
 
       .then(({ data }) => {
+        if (!data.track) throw { code: 404, message: `track not found` }
         res.json(data)
       })
       .catch(next)
