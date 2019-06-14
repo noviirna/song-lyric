@@ -59,6 +59,10 @@ function findAlbumOrSong() {
     }
     
   })
+  .fail(err =>  {
+    console.log(JSON.stringify(err, null, 2));
+    swal(`${err.responseJSON.message}`, "", "error");
+  });
 }
 
 function listSong() {
@@ -83,5 +87,9 @@ function listSong() {
         `)
       })
     })
+    .fail(err =>  {
+      console.log(JSON.stringify(err, null, 2));
+      swal(`${err.responseJSON.message}`, "", "error");
+    });
   })
 }
