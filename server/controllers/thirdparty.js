@@ -41,16 +41,23 @@ class ThirdParty {
   }
   //input harus ada nama artist dan lyric
   static getlyric(req, res, next) {
-    let title = encodeURI(req.params.title);
+    console.log("hai")
+    console.log(req.params)
+    let title = encodeURI(req.params.title)
+    
     axios({
       method: "get",
-      target: `https://api.lyrics.ovh/v1/${req.params.artist}/${title}`
+      url: `https://api.lyrics.ovh/v1/${req.params.artist}/${title}`
     })
-      .then((response) => {
-        if(response.error){
+      .then(function({data}) {
+        if(data.error){
           next ({ code : 404, message : "not found"})
         } else {
-          res.json(response)
+
+          let lyric = data.lyrics
+
+         lyric = lyric.replace(/\n/g, "<br />");
+          res.json(lyric)
         }
       })
       .catch(next);
@@ -65,7 +72,7 @@ class ThirdParty {
     // The target language
     const target = req.params.targetlang;
     let text = req.body.text
-    // Translates some text into Russian
+    console.log(req.body)
     translate
       .translate(text, target)
       .then(value => {

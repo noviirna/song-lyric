@@ -1,18 +1,19 @@
-import { getalbum } from "../../server/controllers/thirdparty";
-
-function translate() {
-  let lang = "jw";
+function translate(lang) {
   console.log("disini");
+  let text = $("#origin").html()
   $.ajax({
     url: `http://localhost:3000/3rdparty/translate/` + lang,
-    method: `get`,
+    method: `post`,
+    data : {text},
     headers: {
       token: localStorage.getItem("token")
     }
   })
     .done(function(response) {
       console.log("sampai sini");
-      console.log(response);
+      $("#translation").html(`
+      ${response.translate}
+      `)
     })
     .fail(function(jqXHR, textStatus) {
       console.log(JSON.stringify(jqXHR, null, 2));
@@ -65,7 +66,7 @@ function findAlbum() {
 
 function getTrackList() {
   let target =
-    "http://theaudiodb.com/api/v1/json/195003/track.php?m=" + albumId;
+    "http://theaudiodb.com/api/v1/json/195003/track.php?m=" + "2109614";
 
   $("#track-list").html(`
   <div class="col mt-3">
@@ -100,12 +101,10 @@ function getTrackList() {
           response.track[i].strMusicVid === null ||
           response.track[i].strMusicVid === "null"
         ) {
-          $("#albumdetail").append(`
+          $("#track-list").append(`
           <ul class="list-group my-1">
             <li class="list-group-item list-group-item-light">
-            ${response.track[i].intTrackNumber}. <a>${
-            response.track[i].strTrack
-          }</a>
+            ${response.track[i].intTrackNumber}. <a href="#" onclick="getLyric('${response.track[i].strArtist}', '${response.track[i].strTrack}')">${response.track[i].strTrack}</a>
             </li>
           </ul>
         `);
@@ -113,11 +112,10 @@ function getTrackList() {
           $("#track-list").append(`
           <ul class="list-group my-1">
             <li class="list-group-item list-group-item-light">
-            ${response.track[i].intTrackNumber}. <a href="${
-            response.track[i].strMusicVid
-          }" target="_blank" rel="noopener noreferrer">${
-            response.track[i].strTrack
-          }</a>
+            ${response.track[i].intTrackNumber}. <a href="#" onclick="getLyric('${response.track[i].strArtist}', '${response.track[i].strTrack}')">${response.track[i].strTrack}</a>
+            <a href="${
+              response.track[i].strMusicVid
+            }" target="_blank" rel="noopener noreferrer"><i class="fa fa-youtube-play" aria-hidden="true"></i></a>
             </li>
           </ul>
         `);
@@ -132,4 +130,42 @@ function getTrackList() {
       );
       console.log(JSON.stringify(jqXHR));
     });
+}
+
+
+function getLyric(artist, title){
+  console.log("disini")
+  $.ajax({
+    url: `http://localhost:3000/3rdparty/lyric/${artist}/${title}`,
+    method: "get"
+  })
+    .done(function(response) {
+      $("#songdetail").html(`
+      <center class="my-3">
+      <h1>${title} by ${artist}</h1>
+      </center>
+      <div class="input-group mb-3">
+          <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Lihat Arti Lirik</button>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="#" onclick="translate('id'); return false">Bahasa Indonesia</a>
+            <div role="separator" class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#" onclick="translate('jw'); return false">Bahasa Jawa</a>
+          </div>
+      </div>
+      `)
+      $("#origin").html(`
+      ${response}
+      `)
+     console.log(response)
+    
+    })
+    .fail(function(jqXHR, textStatus) {
+      swal(
+        "Sorry!",
+        "Problem occured in our server, try again later!",
+        "error"
+      );
+      console.log(JSON.stringify(jqXHR));
+    });
+
 }

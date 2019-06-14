@@ -33,11 +33,16 @@ function loadmainpage() {
     </div>
 
     <div id="lyric">
-      <div id="origin" class="col-6">
+      <h1 id="songdetail" class="my-5"> </h1>
+      <div class="row">
+      <div class="col-1"> </div>
+      <div id="origin" class="col-5">
 
       </div>
-      <div id="translation" class="col-6">
+      <div id="translation" class="col-5">
 
+      </div>
+      <div class="col-1"> </div>
       </div>
     </div>
 
