@@ -1,3 +1,4 @@
+
 function translate(lang) {
   let text = $("#origin").html()
   $.ajax({
