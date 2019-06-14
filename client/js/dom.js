@@ -15,12 +15,14 @@ function loadmainpage() {
   </nav>
 
   <div class="container-fluid mt-3 h-100">
-    <div style="width: 80%">
-      <form class="form-inline" id="search-form" onsubmit="findAlbumOrSong()" >
-        <input type="search" class="form-control mb-2 mr-sm-2" id="search-artist" placeholder="artist">
-        <input type="search" class="form-control mb-2 mr-sm-2" id="search-track" placeholder="song">
-        <button type="submit" class="btn btn-primary mb-2" >Submit</button>
-      </form>
+    <div class="row justify-content-md-center">
+      <div class="col-md-auto">
+        <form class="form-inline" id="search-form" onsubmit="findAlbumOrSong()" >
+          <input type="search" class="form-control mb-2 mr-sm-2" id="search-artist" placeholder="artist">
+          <input type="search" class="form-control mb-2 mr-sm-2" id="search-track" placeholder="song">
+          <button type="submit" class="btn btn-primary mb-2" >Submit</button>
+        </form>
+      </div>
     </div>
     
     <div id="search-result">
