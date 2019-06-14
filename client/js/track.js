@@ -1,3 +1,4 @@
+var hasilfilter = [];
 function translate(lang) {
   let text = $("#origin").html();
   $.ajax({
@@ -33,61 +34,105 @@ function findAlbumOrSong() {
       ><br>
       <center>Please Wait . . .</center>
   </div>
-  `)
+  `);
+  console.log("disini");
   $.ajax({
     method: "GET",
     url: `http://localhost:3000/3rdparty/findbyparam?${params}`
-  }).done(data => {
-    $("#search-result").empty();
-    if (data.album == null) {
-      $("#search-result").append(`
+  })
+    .done(data => {
+      $("#search-result").empty();
+      if (data.album == null && data.track == null) {
+        $("#search-result").html(`
       <div class="col mt-3">
       <img
         class="mx-auto d-block"
         style="max-width: 200px;"
-        src="https://proxy.duckduckgo.com/iu/?u=http%3A%2F%2F4vector.com%2Fi%2Ffree-vector-sorry_030711_sorry.png&f=1"
+        src="https://www.desicomments.com/wp-content/uploads/2018/09/Im-So-So-So-So-So-Sorry.jpg"
         style="max-width: 100%; height: auto; margin: auto;"
         >
         <center>Sorry! The data isn't available on our database.</center>
         </div>   
           `);
-    } else {
-      if (!song) {
-        data.album.forEach(album => {
-          $("#search-result").append(`
-            <div class="card mr-1 mb-4" style="width: 30%;  display: inline-block">
-              <img src="${album.strAlbumThumb}/preview" class="card-img-top">
+      } else {
+        if (!song) {
+          hasilfilter = data.album;
+          data.album.forEach(album => {
+            if (
+              album.strAlbumThumb == "" ||
+              album.strAlbumThumb == null ||
+              album.strAlbumThumb == "null"
+            ) {
+              $("#search-result").append(`
+              <div class="card mx-2 my-2" style="max-width: 200px; display: inline-block">
+              <div class="p-auto">
+              <img src="https://proxy.duckduckgo.com/iu/?u=https%3A%2F%2Fsupport.apple.com%2Fcontent%2Fdam%2Fedam%2Fapplecare%2Fimages%2Fen_US%2Fitunes%2Ffeatured-contetn-itunes-icon_2x.jpg&f=1" style="max-width: 200px;" class="card-img-top">
               <div class="card-boy">
               <p class="card-text">${album.strAlbum}</p>
-              <a href="#" class="btn btn-primary add-to-fav" id="${
+              <a href="##lyric" onclick='getTrack("${
                 album.idAlbum
-              }">List Song</a>
+              }")'>List Song</a>
               </div>
+              </div>
+              </div>
+            `);
+            } else {
+              $("#search-result").append(`
+            <div class="card mx-2 my-2" style="max-width: 200px; display: inline-block">
+            <div class="p-auto">
+            <img src="${
+              album.strAlbumThumb
+            }/preview" style="max-width: 200px;" class="card-img-top">
+            <div class="card-boy">
+            <p class="card-text">${album.strAlbum}</p>
+            <a href="#lyric" onclick='getTrack("${
+              album.idAlbum
+            }")'>List Song</a>
+            </div>
+            </div>
             </div>
           `);
-        });
-      } else {
-        data.track.forEach(track => {
-          $("#search-result").append(`
-            <div class="card mr-1 mb-4" style="width: 30%;  display: inline-block">
-              <div class="card-boy">
-              <p class="card-text">${track.strArtist} ~ ${track.strTrack}</p>
-              <a href="#" class="btn btn-primary add-to-fav" id="${
-                track.idTrack
-              }">Add to Fav</a>
-              </div>
+            }
+          });
+        } else {
+          hasilfilter = data.track;
+          data.track.forEach(track => {
+            $("#search-result").append(`
+            <div class="card mx-2 my-2" style="max-width: 200px; display: inline-block">
+            <div class="p-auto">
+            <img src="${
+              track.strAlbumThumb
+            }/preview" style="max-width: 200px;" class="card-img-top">
+            <div class="card-boy">
+            <p class="card-text">${track.strArtist} ~ ${track.strTrack}</p>
+            <a href="##lyric" id="${track.idTrack}">List Song</a>
+            </div>
+            </div>
             </div>
           `);
-        });
+          });
+        }
       }
-    }
-  });
+    })
+    .fail(function(jqXHR, textStatus) {
+      $("#search-result").html(`
+    <div class="col mt-3">
+    <img
+      class="mx-auto d-block"
+      style="max-width: 200px;"
+      src="https://www.desicomments.com/wp-content/uploads/2018/09/Im-So-So-So-So-So-Sorry.jpg"
+      style="max-width: 100%; height: auto; margin: auto;"
+      >
+      <center>Sorry! The data isn't available on our database.</center>
+      </div>   
+        `);
+    });
 }
 
-function getTrack() {
-  let target =
-    "http://theaudiodb.com/api/v1/json/195003/track.php?m=" + "2109614";
-
+function getTrack(idAlbum) {
+  let target = "http://localhost:3000/3rdparty/tracklist?idAlbum=" + idAlbum;
+  $("#origin").html("");
+  $("#translation").html("");
   $("#track-list").html(`
   <div class="col mt-3">
   <img
@@ -103,16 +148,11 @@ function getTrack() {
     method: "get"
   })
     .done(function(response) {
-      $("#albumname").html(`
-    <div>
-      ${
-        response.track[0].strAlbum
-      } <br><small>${response.track[0].strArtist}</small>
-    </div>
-    `);
       $("#track-list").html(``);
-      $("#track-list").append(`<h5>Song's list</h5>
-    <small>
+      $("#track-list").append(`<h5>
+        ${response.track[0].strAlbum} by ${response.track[0].strArtist} 
+      </h5>
+      <small>
     <a class="float-right" href="" onclick="closeAlbumDetail();return false;">Close Album Details</a>
     </small><br>`);
       for (let i = 0; i < response.track.length; i++) {
@@ -126,7 +166,7 @@ function getTrack() {
             <li class="list-group-item list-group-item-light">
             ${
               response.track[i].intTrackNumber
-            }. <a href="#" onclick="getLyric('${
+            }. <a href="#origin" onclick="getLyric('${
             response.track[i].strArtist
           }', '${response.track[i].strTrack}')">${
             response.track[i].strTrack
@@ -138,16 +178,21 @@ function getTrack() {
           $("#track-list").append(`
           <ul class="list-group my-1">
             <li class="list-group-item list-group-item-light">
+            <div id="${response.track[i].idTrack}">
+            a
+            </div>
             ${
               response.track[i].intTrackNumber
-            }. <a href="#" onclick="getLyric('${
+            }. <a href="#origin" onclick="getLyric('${
             response.track[i].strArtist
           }', '${response.track[i].strTrack}')">${
             response.track[i].strTrack
           }</a>
-            <a href="${
-              response.track[i].strMusicVid
-            }" target="_blank" rel="noopener noreferrer"><i class="fa fa-youtube-play" aria-hidden="true"></i></a>
+            <a href="#${response.track[i].idTrack}" onclick="watchVideo('${
+            response.track[i].idTrack
+          }','${
+            response.track[i].strMusicVid
+          }')"><i class="fa fa-youtube-play" aria-hidden="true"></i></a>
             </li>
           </ul>
         `);
@@ -164,26 +209,34 @@ function getTrack() {
     });
 }
 
+function watchVideo(divid, url) {
+  url = url.replace(/watch\?v=/g, "embed/");
+  $(`#${divid}`).html(`
+  <center>
+    <iframe
+      width="420"
+      height="315"
+      src="${url}">
+    </iframe>
+  </center>
+  `);
+}
+
 function getLyric(artist, title) {
   $.ajax({
     url: `http://localhost:3000/3rdparty/lyric/${artist}/${title}`,
     method: "get"
   })
     .done(function(response) {
+      console.log(response)
       $("#songdetail").html("");
       $("#origin").html("");
       $("#translation").html("");
       $("#songdetail").html(`
       <center class="my-3">
       <h1>${title} by ${artist}</h1>
-      <div class="input-group mb-3">
-          <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Lihat Arti Lirik</button>
-          <div class="dropdown-menu">
-            <a class="dropdown-item" href="#" onclick="translate('id'); return false">Bahasa Indonesia</a>
-            <div role="separator" class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#" onclick="translate('jw'); return false">Bahasa Jawa</a>
-          </div>
-      </div>
+      <a href="#translation" onclick="translate('id'); return false">Bahasa Indonesia</a>
+      <a href="#translation" onclick="translate('jw'); return false">Bahasa Jawa</a>
       </center>
       `);
       $("#origin").html(`
@@ -191,9 +244,23 @@ function getLyric(artist, title) {
       `);
     })
     .fail(function(jqXHR, textStatus) {
+      $("#songdetail").html("");
+      $("#origin").html("");
+      $("#translation").html("");
+      $("#songdetail").html(`
+        <div class="col mt-3">
+        <img
+        class="mx-auto d-block"
+        style="max-width: 200px;"
+        src="https://www.desicomments.com/wp-content/uploads/2018/09/Im-So-So-So-So-So-Sorry.jpg"
+        style="max-width: 100%; height: auto; margin: auto;"
+        >
+        <center>Sorry! The data isn't available on our database.</center>
+        </div>
+      `);
       swal(
         "Sorry!",
-        "Problem occured in our server, try again later!",
+        "Lyric does not exist in our database :( We will fix it as soon as possible!",
         "error"
       );
       console.log(JSON.stringify(jqXHR));

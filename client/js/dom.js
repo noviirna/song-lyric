@@ -13,33 +13,32 @@ function loadmainpage() {
     </div>
   </nav>
   
-
   <div class="container-fluid mt-3 h-100">
     <div class="row justify-content-md-center
     justify-content-sm-center">
-      <div class="col-lg-auto col-md-auto col-sm-auto">
-        <center>
+      <div class="col-lg-auto col-md-auto col-sm-auto m-3">
+        <center class="m-5">
         <i class="fa fa-music fa-5x mb-3" aria-hidden="true"></i>
         <h1>Pahami Liriknya</h1>
         </center>
         <form class="form-inline" id="search-form" onsubmit="findAlbumOrSong(); return false" >
-          <input type="search" class="form-control mb-2 mx-1 w-100" id="search-artist" placeholder="Nama Artis" required="" autofocus="">
-          <input type="search" class="form-control mb-2 mx-1 w-100" id="search-track" placeholder="Nama Lagu *optional">
-          <button type="submit" class="btn btn-primary mb-2 btn-block" id="buttoncari"><i class="fa fa-search" aria-hidden="true"></i></button>
+          <input type="search" class="form-control mb-3 mx-1 w-100" id="search-artist" placeholder="Nama Artis" required="" autofocus="">
+          <input type="search" class="form-control mb-3 mx-1 w-100" id="search-track" placeholder="Nama Lagu *optional">
+          <button type="submit" class="btn btn-primary mt-2 mb-3 btn-block" id="buttoncari"><i class="fa fa-search fa-2x" aria-hidden="true"></i></button>
           </form>
       </div>
     </div>
     
-    <div id="search-result">
+    <div id="search-result" class="container mt-5">
       
     </div>
     <div id="player">
 
-    
+
     
     </div>
 
-    <div id="track-list">
+    <div id="track-list" class="container mt-5">
     
     </div>
 
@@ -63,7 +62,6 @@ function loadmainpage() {
 
   </div>
     `);
-  getTrack();
   gapi.load("auth2", function() {
     gapi.auth2.init();
   });
@@ -76,7 +74,7 @@ function loadloginpage() {
       <div class="col-sm-12 col-md-12 mb-5">
       <center>
         <i class="fa fa-music fa-5x mb-3" aria-hidden="true"></i>
-        <h1 onclick="translate()">Pahami Liriknya</h1>
+        <h1>Pahami Liriknya</h1>
       </center>
       </div>
       <div class="col-md-3"></div>
@@ -102,7 +100,6 @@ function loadloginpage() {
     longtitle: true,
     theme: "light",
     onsuccess: onSignIn
-    // 'onfailure': onFailure
   });
 }
 
