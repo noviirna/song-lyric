@@ -1,14 +1,40 @@
-const { Translate } = require("@google-cloud/translate");
-const axios = require("axios");
+
+const {Translate} = require('@google-cloud/translate');
+const axios = require('axios');
+const audioDB = axios.create({
+  baseURL: `https://theaudiodb.com/api/v1/json/${process.env.AUDIO_DB_KEY}/`
+})
 
 class ThirdParty {
+  // route inputan
+  static findAlbumOrTrack(req, res, next) {
+    if (!req.query.song) ThirdParty.getalbum(req, res, next)
+    else ThirdParty.gettrack(req, res, next)
+  }
+
+  
   // dapatkan nama album
-  static getalbum(req, res, next) {}
+  static getalbum(req, res, next) {
+    audioDB.get(`searchalbum.php?s=${req.query.artist}`)
+
+    .then(({ data }) => {
+      res.json(data)
+    })
+    .catch(next)
+  }
 
   // dapatkan list lagu (inputnya albumId)
-  // atau nama satu lagu
   static gettracklist(req, res, next) {}
 
+  // atau nama satu lagu
+  static gettrack(req, res, next) {
+    audioDB.get(`searchtrack.php?s=${req.query.artist}&t=${req.query.song}`)
+
+      .then(({ data }) => {
+        res.json(data)
+      })
+      .catch(next)
+  }
   //input harus ada nama artist dan lyric
   static getlyric(req, res, next) {
     let title = encodeURI(req.params.title);

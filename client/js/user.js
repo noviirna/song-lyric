@@ -80,11 +80,17 @@ function signIn() {
 
 
 function signOut() {
-  gapi.auth2.getAuthInstance().signOut().then(function(){
+  gapi.auth2.getAuthInstance().signOut()
+  .then(() => {
+
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     checkLogin();
     swal("Logged Out", `success logged out!`, "success");
+  })
+  .catch(function(err) {
+    console.log(err);
+    swal("google auth error", "please check your connection", "error");
   })
 }
 
