@@ -228,6 +228,7 @@ function watchVideo(divid, url) {
 }
 
 function getLyric(artist, title) {
+  populateWiki(artist+' '+title)
   $.ajax({
     url: `http://localhost:3000/3rdparty/lyric/${artist}/${title}`,
     method: "get"
