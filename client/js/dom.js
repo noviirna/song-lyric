@@ -1,28 +1,32 @@
-
 function loadmainpage() {
   $("#app").html(`
   <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-    <a class="navbar-brand" href="#">Pahami Liriknya</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+    <a class="navbar-brand p-3" href="#">
+      <i class="fa fa-music fa-2x mb-3" aria-hidden="true"></i> <span class="ml-2">Pahami Liriknya</span>
+    </a>
     <div class="collapse navbar-collapse" id="navbarColor01">
       <ul class="navbar-nav mr-auto">
-        <li class="nav-item">
+        <li class="nav-item navbar-right">
           <a class="nav-link" href="#" onclick="signOut()">Log Out<span class="sr-only">(current)</span></a>
         </li>
       </ul>
     </div>
   </nav>
+  
 
   <div class="container-fluid mt-3 h-100">
-    <div class="row justify-content-md-center">
-      <div class="col-md-auto">
-        <form class="form-inline" id="search-form" onsubmit="findAlbumOrSong()" >
-          <input type="search" class="form-control mb-2 mr-sm-2" id="search-artist" placeholder="artist">
-          <input type="search" class="form-control mb-2 mr-sm-2" id="search-track" placeholder="song">
-          <button type="submit" class="btn btn-primary mb-2" >Submit</button>
-        </form>
+    <div class="row justify-content-md-center
+    justify-content-sm-center">
+      <div class="col-lg-auto col-md-auto col-sm-auto">
+        <center>
+        <i class="fa fa-music fa-5x mb-3" aria-hidden="true"></i>
+        <h1>Pahami Liriknya</h1>
+        </center>
+        <form class="form-inline" id="search-form" onsubmit="findAlbumOrSong(); return false" >
+          <input type="search" class="form-control mb-2 mx-1 w-100" id="search-artist" placeholder="Nama Artis" required="" autofocus="">
+          <input type="search" class="form-control mb-2 mx-1 w-100" id="search-track" placeholder="Nama Lagu *optional">
+          <button type="submit" class="btn btn-primary mb-2 btn-block" id="buttoncari"><i class="fa fa-search" aria-hidden="true"></i></button>
+          </form>
       </div>
     </div>
     
@@ -57,7 +61,7 @@ function loadmainpage() {
 
   </div>
     `);
-    getFavorites()
+  getTrack();
   gapi.load("auth2", function() {
     gapi.auth2.init();
   });

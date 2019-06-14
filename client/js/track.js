@@ -1,10 +1,9 @@
-
 function translate(lang) {
-  let text = $("#origin").html()
+  let text = $("#origin").html();
   $.ajax({
     url: `http://localhost:3000/3rdparty/translate/` + lang,
     method: `post`,
-    data : {text},
+    data: { text },
     headers: {
       token: localStorage.getItem("token")
     }
@@ -12,7 +11,7 @@ function translate(lang) {
     .done(function(response) {
       $("#translation").html(`
       ${response.translate}
-      `)
+      `);
     })
     .fail(function(jqXHR, textStatus) {
       console.log(JSON.stringify(jqXHR, null, 2));
@@ -20,49 +19,72 @@ function translate(lang) {
     });
 }
 
-function findAlbum() {
+function findAlbumOrSong() {
   const artist = $("#search-artist").val();
   const song = $("#search-track").val();
   let params = `artist=${artist}`;
-  if (song) params += `&song${song}`;
+  if (song) params += `&song=${song}`;
+  $("#search-result").html(`
+  <div class="col mt-3">
+    <img
+      class="mx-auto d-block p-5"
+      src="https://media1.giphy.com/media/10kTz4r3ishQwU/200w.webp?cid=790b76115cff09635466326f4d4419ea&rid=200w.webp"
+      style="max-width: 200px; height: auto; margin: auto;"
+      ><br>
+      <center>Please Wait . . .</center>
+  </div>
+  `)
   $.ajax({
     method: "GET",
     url: `http://localhost:3000/3rdparty/findbyparam?${params}`
   }).done(data => {
     $("#search-result").empty();
-    $("#search-result").append("<hr>");
-    if (!song) {
-      data.album.forEach(album => {
-        $("#search-result").append(`
-          <div class="card mr-1 mb-4" style="width: 30%;  display: inline-block">
-            <img src="${album.strAlbumThumb}/preview" class="card-img-top">
-            <div class="card-boy">
-            <p class="card-text">${album.strAlbum}</p>
-            <a href="#" class="btn btn-primary add-to-fav" id="${
-              album.idAlbum
-            }">List Song</a>
-            </div>
-          </div>
-        `);
-      });
+    if (data.album == null) {
+      $("#search-result").append(`
+      <div class="col mt-3">
+      <img
+        class="mx-auto d-block"
+        style="max-width: 200px;"
+        src="https://proxy.duckduckgo.com/iu/?u=http%3A%2F%2F4vector.com%2Fi%2Ffree-vector-sorry_030711_sorry.png&f=1"
+        style="max-width: 100%; height: auto; margin: auto;"
+        >
+        <center>Sorry! The data isn't available on our database.</center>
+        </div>   
+          `);
     } else {
-      data.track.forEach(track => {
-        $("#search-result").append(`
-          <div class="card mr-1 mb-4" style="width: 30%;  display: inline-block">
-            <div class="card-boy">
-            <p class="card-text">${track.strArtist} ~ ${track.strTrack}</p>
-            <a href="#" class="btn btn-primary add-to-fav" id="${
-              track.idTrack
-            }">Add to Fav</a>
+      if (!song) {
+        data.album.forEach(album => {
+          $("#search-result").append(`
+            <div class="card mr-1 mb-4" style="width: 30%;  display: inline-block">
+              <img src="${album.strAlbumThumb}/preview" class="card-img-top">
+              <div class="card-boy">
+              <p class="card-text">${album.strAlbum}</p>
+              <a href="#" class="btn btn-primary add-to-fav" id="${
+                album.idAlbum
+              }">List Song</a>
+              </div>
             </div>
-          </div>
-        `);
-      });
+          `);
+        });
+      } else {
+        data.track.forEach(track => {
+          $("#search-result").append(`
+            <div class="card mr-1 mb-4" style="width: 30%;  display: inline-block">
+              <div class="card-boy">
+              <p class="card-text">${track.strArtist} ~ ${track.strTrack}</p>
+              <a href="#" class="btn btn-primary add-to-fav" id="${
+                track.idTrack
+              }">Add to Fav</a>
+              </div>
+            </div>
+          `);
+        });
+      }
     }
   });
 }
 
-function getFavorites() {
+function getTrack() {
   let target =
     "http://theaudiodb.com/api/v1/json/195003/track.php?m=" + "2109614";
 
@@ -81,7 +103,6 @@ function getFavorites() {
     method: "get"
   })
     .done(function(response) {
-
       $("#albumname").html(`
     <div>
       ${
@@ -103,7 +124,13 @@ function getFavorites() {
           $("#track-list").append(`
           <ul class="list-group my-1">
             <li class="list-group-item list-group-item-light">
-            ${response.track[i].intTrackNumber}. <a href="#" onclick="getLyric('${response.track[i].strArtist}', '${response.track[i].strTrack}')">${response.track[i].strTrack}</a>
+            ${
+              response.track[i].intTrackNumber
+            }. <a href="#" onclick="getLyric('${
+            response.track[i].strArtist
+          }', '${response.track[i].strTrack}')">${
+            response.track[i].strTrack
+          }</a>
             </li>
           </ul>
         `);
@@ -111,7 +138,13 @@ function getFavorites() {
           $("#track-list").append(`
           <ul class="list-group my-1">
             <li class="list-group-item list-group-item-light">
-            ${response.track[i].intTrackNumber}. <a href="#" onclick="getLyric('${response.track[i].strArtist}', '${response.track[i].strTrack}')">${response.track[i].strTrack}</a>
+            ${
+              response.track[i].intTrackNumber
+            }. <a href="#" onclick="getLyric('${
+            response.track[i].strArtist
+          }', '${response.track[i].strTrack}')">${
+            response.track[i].strTrack
+          }</a>
             <a href="${
               response.track[i].strMusicVid
             }" target="_blank" rel="noopener noreferrer"><i class="fa fa-youtube-play" aria-hidden="true"></i></a>
@@ -131,16 +164,15 @@ function getFavorites() {
     });
 }
 
-
-function getLyric(artist, title){
+function getLyric(artist, title) {
   $.ajax({
     url: `http://localhost:3000/3rdparty/lyric/${artist}/${title}`,
     method: "get"
   })
     .done(function(response) {
-      $("#songdetail").html("")
-      $("#origin").html("")
-      $("#translation").html("")
+      $("#songdetail").html("");
+      $("#origin").html("");
+      $("#translation").html("");
       $("#songdetail").html(`
       <center class="my-3">
       <h1>${title} by ${artist}</h1>
@@ -153,11 +185,10 @@ function getLyric(artist, title){
           </div>
       </div>
       </center>
-      `)
+      `);
       $("#origin").html(`
       ${response}
-      `)
-    
+      `);
     })
     .fail(function(jqXHR, textStatus) {
       swal(
@@ -167,5 +198,4 @@ function getLyric(artist, title){
       );
       console.log(JSON.stringify(jqXHR));
     });
-
 }

@@ -41,8 +41,6 @@ class ThirdParty {
   }
   //input harus ada nama artist dan lyric
   static getlyric(req, res, next) {
-    console.log("hai")
-    console.log(req.params)
     let title = encodeURI(req.params.title)
     
     axios({
@@ -53,11 +51,9 @@ class ThirdParty {
         if(data.error){
           next ({ code : 404, message : "not found"})
         } else {
-
-          let lyric = data.lyrics
-
+        let lyric = data.lyrics
          lyric = lyric.replace(/\n/g, "<br />");
-          res.json(lyric)
+        res.json(lyric)
         }
       })
       .catch(next);
@@ -65,18 +61,14 @@ class ThirdParty {
 
   //translate lyric
   static translate(req, res, next) {
-    // Instantiates a client
     let projectId = process.env.GOOGLE_PROJECT_ID;
     const translate = new Translate({ projectId });
 
-    // The target language
     const target = req.params.targetlang;
     let text = req.body.text
-    console.log(req.body)
     translate
       .translate(text, target)
       .then(value => {
-        console.log(value, "yass");
         res.json({ text, translate: value[0] });
       })
       .catch(next);
