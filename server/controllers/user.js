@@ -39,6 +39,7 @@ class ControllerUser {
         audience: process.env.CLIENT_ID
       })
       .then(ticket => {
+        console.log("1")
         console.log(ticket.getPayload(), "disini");
         newEmail = ticket.getPayload().email;
         return User.findOne({
@@ -57,7 +58,6 @@ class ControllerUser {
       })
       .then(newUser => {
         let token = generateToken(newUser._id, newUser.email);
-
         let obj = {
           token,
           user: newUser._id

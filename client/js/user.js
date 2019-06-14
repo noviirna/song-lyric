@@ -80,10 +80,11 @@ function signIn() {
 
 
 function signOut() {
-  gapi.auth2.getAuthInstance().signOut()
-  localStorage.removeItem("token");
-  localStorage.removeItem("user");
-  checkLogin();
-  swal("Logged Out", `success logged out!`, "success");
+  gapi.auth2.getAuthInstance().signOut().then(function(){
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    checkLogin();
+    swal("Logged Out", `success logged out!`, "success");
+  })
 }
 

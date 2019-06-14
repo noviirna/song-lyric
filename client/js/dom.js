@@ -30,7 +30,7 @@ function loadloginpage() {
       <div class="col-sm-12 col-md-12 mb-5">
       <center>
         <i class="fa fa-music fa-5x mb-3" aria-hidden="true"></i>
-        <h1>Pahami Liriknya</h1>
+        <h1 onclick="translate()">Pahami Liriknya</h1>
       </center>
       </div>
       <div class="col-md-3"></div>
