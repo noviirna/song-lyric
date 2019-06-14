@@ -18,11 +18,11 @@ function translate(){
     });
 }
 
-function findAlbum() {
+function findAlbumOrSong() {
   const artist = $("#search-artist").val()
   const song = $("#search-track").val()
   let params = `artist=${artist}`
-  if (song) params +=`&song${song}`
+  if (song) params +=`&song=${song}`
   $.ajax({
     method: 'GET',
     url: `http://localhost:3000/3rdparty/findbyparam?${params}`
@@ -31,10 +31,11 @@ function findAlbum() {
     $('#search-result').empty()
     $('#search-result').append('<hr>')
     console.log(song)
+    console.log(data)
     if (!song) {
       data.album.forEach(album => {
         $('#search-result').append(`
-          <div class="card mr-1 mb-4" style="width: 30%;  display: inline-block">
+          <div class="card mr-1 mb-4" style="width: 10%;  display: inline-block">
             <img src="${album.strAlbumThumb}/preview" class="card-img-top">
             <div class="card-boy">
             <p class="card-text">${album.strAlbum}</p>
@@ -50,7 +51,7 @@ function findAlbum() {
           <div class="card mr-1 mb-4" style="width: 30%;  display: inline-block">
             <div class="card-boy">
             <p class="card-text">${track.strArtist} ~ ${track.strTrack}</p>
-            <a href="#" class="btn btn-primary add-to-fav" id="${track.idTrack}">Add to Fav</a>
+            <a href="#" id="${track.idTrack}">Add to Fav</a>
             </div>
           </div>
         `)
@@ -58,4 +59,8 @@ function findAlbum() {
     }
     
   })
+}
+
+function listSong() {
+  
 }
